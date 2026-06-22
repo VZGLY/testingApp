@@ -92,11 +92,15 @@ namespace testingApp
 
         public Article ArticleLePlusCher()
         {
+
+            if (Articles.Count == 0)
+                return null;
+
             Article plusCher = Articles[0];
 
             foreach (var article in Articles)
             {
-                if (article.Prix < plusCher.Prix)
+                if (article.Prix > plusCher.Prix)
                 {
                     plusCher = article;
                 }
@@ -107,6 +111,11 @@ namespace testingApp
 
         public decimal PrixMoyen()
         {
+            if (Articles.Count == 0)
+            {
+                return 0;
+            }
+
             decimal total = 0;
 
             foreach (var article in Articles)
