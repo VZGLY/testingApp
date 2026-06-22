@@ -25,9 +25,13 @@ namespace testingApp
 
             double result = 1;
 
-            for (int i = 1; i < exponent; i++)
+            for (int i = 0; i < exponent; i++)
             {
                 result *= number;
+                if (double.IsPositiveInfinity(result))
+                {
+                    throw new OverflowException();
+                }
             }
 
             return result;
@@ -41,12 +45,17 @@ namespace testingApp
             if (total == 0)
                 throw new DivideByZeroException();
 
-            return value / (total * 100);
+            return (value / total) * 100;
         }
 
         public double Max(double a, double b)
         {
-            return (a >= 0 && b >= 0) ? (a >= b ? b : a) : throw new ArgumentException("Les valeurs doivent être positives ou egal à 0");
+            return (a >= 0 && b >= 0) ? (a >= b ? a : b) : throw new ArgumentException("Les valeurs doivent être positives ou egal à 0");
+        }
+
+        public double Min(double a, double b)
+        {
+            return (a >= 0 && b >= 0) ? (a <= b ? a : b) : throw new ArgumentException("Les valeurs doivent être positives ou egal à 0");
         }
 
     }
