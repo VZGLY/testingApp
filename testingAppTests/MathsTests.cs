@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.Text;
 using testingApp;
 
@@ -8,14 +9,18 @@ namespace testingAppTests
     public class MathsTests
     {
 
-        [Fact]
-        public void Average_PositiveValues_ReturnAverage()
+        [Theory]
+        [InlineData(10, 20, 15)]
+        [InlineData(0, 0, 0)]
+        [InlineData(0, double.MaxValue, 8.988465674311579E+307)]
+        [InlineData(double.MaxValue, double.MaxValue, double.MaxValue)]
+        [InlineData(2.5, 7.5, 5)]
+        [InlineData(1.5, 2.5, 2)]
+        [InlineData(0, 5, 2.5)]
+        public void Average_PositiveValues_ReturnAverage(double a, double b, double expected)
         {
             // Arrange 
             Maths math = new Maths();
-            double a = 10;
-            double b = 20;
-            double expected = 15;
 
             // Act
             double result = math.Average(a, b);
@@ -24,13 +29,18 @@ namespace testingAppTests
             Assert.Equal(expected, result);
         }
 
-        [Fact]
-        public void Average_NegativeValues_ThrowArgumentException()
+        [Theory]
+        [InlineData(-10, -20)]
+        [InlineData(0, -12)]
+        [InlineData(-15, 0)]
+        [InlineData(15, -15)]
+        [InlineData(-15,15)]
+        [InlineData(double.MaxValue, double.MinValue)]
+        [InlineData(double.MinValue, double.MaxValue)]
+        public void Average_NegativeValues_ThrowArgumentException(double a, double b)
         {
             // Arrange
             Maths math = new Maths();
-            double a = -10;
-            double b = -20;
 
             // Act && Assert
             Assert.Throws<ArgumentException>(() => math.Average(a, b));
@@ -73,13 +83,14 @@ namespace testingAppTests
             Assert.Throws<ArgumentException>(() => maths.Divide(a, b));
         }
 
-        [Fact]
-        public void Divide_ZeroValue_ThrowDivideByZero()
+        [Theory]
+        [InlineData(0, 0)]
+        [InlineData(10, 0)]
+        [InlineData(double.MaxValue, 0)]
+        public void Divide_ZeroValue_ThrowDivideByZero(double a, double b)
         {
             // Arrange
             Maths math = new Maths();
-            double a = 10;
-            double b = 0;
 
             // Act && assert
             Assert.Throws<DivideByZeroException>(() => math.Divide(a, b));
